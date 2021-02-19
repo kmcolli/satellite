@@ -20,7 +20,7 @@ As a note, this is part of the zero to cloud native tutorial series ( <https://w
 2 -- Tutorials
 ==============================================
 
-<b>Start here!</b> This tutorial will guide you through a step by step process in creating a satellite location, provisioning infrastructure, creating an IBM Cloud Managed OpenShfit Cluster in your new satellite location.   
+<b> Start here! </b>   This tutorial will guide you through a step by step process in creating a satellite location, provisioning infrastructure, creating an IBM Cloud Managed OpenShfit Cluster in your new satellite location.   
 <b>[Create a Satellite Location and OpenShift Cluster](https://github.com/kmcolli/satellite/blob/master/docs/satellite/satellite.md)</b>
 --
          

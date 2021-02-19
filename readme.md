@@ -24,11 +24,11 @@ As a note, this is part of the zero to cloud native tutorial series ( <https://w
 <b>[Create a Satellite Location and OpenShift Cluster](https://github.com/kmcolli/satellite/blob/master/docs/satellite/satellite.md)</b>
 --
          
-
+<br>
 <b>[Create Private Only Infrastructure IBM Cloud VPC ](https://github.com/kmcolli/satellite/blob/master/docs/vpc/vpc.md)</b>
 --  
       
-
+<br>
 <b>[Create Private VPN Connectivity to your location](https://github.com/kmcolli/satellite/blob/master/docs/vpn/vpn.md)</b>
 --
 <br>

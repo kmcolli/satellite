@@ -123,7 +123,7 @@ Now that we have our VSI provisioned with a public IP, we can now start
 configuring it. Start your terminal and SSH into the VSI.
 
 ```
-ssh -i \~/.ssh/kevincollins\@us.ibm.com <root@169.48.155.171>
+ssh -i ~/.ssh/kevincollins\@us.ibm.com <root@169.48.155.171>
 ```
 \*note: make sure to select the location of your SSH key that we
 previously setup.
@@ -144,9 +144,9 @@ sudo apt-get update
 
 sudo apt-get install openvpn easy-rsa
 
-make-cadir \~/openvpn-ca
+make-cadir ~/openvpn-ca
 
-cd \~/openvpn-ca
+cd ~/openvpn-ca
 ```
 The OpenVPN connection will be secured by certificates that we need to
 create. To create certificates, there are a number of variables that we

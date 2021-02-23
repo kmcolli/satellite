@@ -123,9 +123,9 @@ Now that we have our VSI provisioned with a public IP, we can now start
 configuring it. Start your terminal and SSH into the VSI.
 
 ```
-ssh -i ~/.ssh/kevincollins\@us.ibm.com <root@169.48.155.171>
+ssh -i ~/.ssh/kevincollins@us.ibm.com <root@169.48.155.171>
 ```
-\*note: make sure to select the location of your SSH key that we
+*note: make sure to select the location of your SSH key that we
 previously setup.
 
 ![Text Description automatically
@@ -160,7 +160,7 @@ Scroll down in the file and enter values as follows:
 ![Text Description automatically
 generated](.//media/image12.png)
 
-\*Note, this is informational only and you can add whatever you want
+*Note, this is informational only and you can add whatever you want
 here. After making the changes, save the file.
 
 Going back to configuring the OpenVPN server, enter these commands:
@@ -198,8 +198,7 @@ cd keys
 
 cp ca.crt server.crt server.key ta.key dh2048.pem /etc/openvpn
 
-gunzip -c
-/usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz |
+gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz |
 sudo tee /etc/openvpn/server.conf
 ```
 
@@ -211,65 +210,39 @@ Copy and paste the following into this file, make sure to enter the
 routes for your VPC, see below on how to do that.
 
 ```
-\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
-
-\# Sample OpenVPN 2.0 config file for \#
-
-\# IBM VPC \#
-
-\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
-
+#################################################
+# Sample OpenVPN 2.0 config file for            #
+# IBM VPC                                       #
+#################################################
 port 1194
-
 proto udp
-
 dev tun
-
 ca ca.crt
-
 cert server.crt
-
-key server.key \# This file should be kept secret
-
+key server.key  # This file should be kept secret
 dh dh2048.pem
-
 server 10.8.0.0 255.255.255.0
-
 ifconfig-pool-persist ipp.txt
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
 
-push \"dhcp-option DNS 8.8.8.8\"
-
-push \"dhcp-option DNS 8.8.4.4\"
-
-\# update with routes from your VPC
-
-push \"route 10.240.0.0 255.255.192.0\"
-
-push \"route 10.240.64.0 255.255.192.0\"
-
-push \"route 10.240.128.0 255.255.192.0\"
+# update with routes from your VPC
+push "route 10.240.0.0 255.255.192.0"
+push "route 10.240.64.0 255.255.192.0"
+push "route 10.240.128.0 255.255.192.0"
 
 keepalive 10 120
-
-tls-auth ta.key 0 \# This file is secret
-
-cipher AES-128-CBC \# AES
-
+tls-auth ta.key 0 # This file is secret
+cipher AES-128-CBC   # AES
 auth SHA256
-
 comp-lzo
-
 user nobody
-
 group nogroup
-
 persist-key
-
 persist-tun
-
 status openvpn-status.log
-
 verb 3
+
 ```
 In order for the OpenVPN client to be able to connect to your VPC, you
 will need to create routes. The first step is finding out what address
@@ -303,11 +276,11 @@ http://www.sput.nl/internet/cidr-routing.html
 In my VPC, this results in the following routes:
 
 ```
-push \"route 10.240.0.0 255.255.192.0\"
+* push "route 10.240.0.0 255.255.192.0"
 
-push \"route 10.240.64.0 255.255.192.0\"
+push "route 10.240.64.0 255.255.192.0"
 
-push \"route 10.240.128.0 255.255.192.0\"
+push "route 10.240.128.0 255.255.192.0"
 ```
 
 The next file we need to update is sysctl.conf.

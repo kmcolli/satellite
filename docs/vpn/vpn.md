@@ -166,7 +166,7 @@ here. After making the changes, save the file.
 Going back to configuring the OpenVPN server, enter these commands:
 
 ```
-cd \~/openvpn-ca
+cd ~/openvpn-ca
 
 source vars
 
@@ -187,20 +187,19 @@ generate the certificate )
 ```
 ./build-dh
 
-openvpn \--genkey \--secret keys/ta.key
+openvpn --genkey --secret keys/ta.key
 
-cd \~/openvpn-ca
 
 source vars
 
 ./build-key client1
 
-cd \~/openvpn-ca/keys
+cd keys
 
 cp ca.crt server.crt server.key ta.key dh2048.pem /etc/openvpn
 
 gunzip -c
-/usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz \|
+/usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz |
 sudo tee /etc/openvpn/server.conf
 ```
 
@@ -320,13 +319,13 @@ vi /etc/sysctl.conf
 Uncomment the following line:
 
 ```
-/etc/sysctl.conf
-
 net.ipv4.ip_forward = 1
+```
 
+```
 sudo sysctl -p
 
-ip route \| grep default
+ip route | grep default
 ```
 
 Make note of the output, you will need to the interface name which comes
@@ -345,22 +344,22 @@ vi /etc/ufw/before.rules
 Add these lines near the top:
 
 ```
-\# START OPENVPN RULES
+# START OPENVPN RULES
 
-\# NAT table rules
+# NAT table rules
 
-\*nat
+*nat
 
-:POSTROUTING ACCEPT \[0:0\]
+:POSTROUTING ACCEPT [0:0]
 
-\# Allow traffic from OpenVPN client to wlp11s0 (change to the interface
-you discovered!)
+# Allow traffic from OpenVPN client to wlp11s0 (change to the interface
+# you discovered!)
 
 -A POSTROUTING -s 10.8.0.0/8 -o ens3 -j MASQUERADE
 
 COMMIT
 
-\# END OPENVPN RULES
+# END OPENVPN RULES
 ```
 
 Make sure to change ens3 to the value you got in the previous step.
@@ -386,18 +385,17 @@ sudo ufw disable
 
 sudo ufw enable
 
-sudo systemctl start openvpn\@server
+sudo systemctl start openvpn@server
 
-sudo systemctl status openvpn\@server
+sudo systemctl status openvpn@server
 
-mkdir -p \~/client-configs/files
+mkdir -p ~/client-configs/files
 
-chmod 700 \~/client-configs/files
+chmod 700 ~/client-configs/files
 
-cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf
-\~/client-configs/base.conf
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/client-configs/base.conf
 
-vi \~/client-configs/base.conf
+vi ~/client-configs/base.conf
 ```
 change the remote my-server-1 line to the floating IP of your VPN
 instance
@@ -417,11 +415,11 @@ group nogroup
 comment out the following lines:
 
 ```
-\#ca ca.crt
+#ca ca.crt
 
-\#cert client.crt
+#cert client.crt
 
-\#key client.key
+#key client.key
 ```
 
 ![Text Description automatically
@@ -444,49 +442,38 @@ Next create a file that your OpenVPN client will use and paste the
 following in it:
 
 ```
-vi \~/client-configs/make_config.sh
+vi ~/client-configs/make_config.sh
 ```
 
 ```
-**\#!/bin/bash**
+#!/bin/bash
 
-\# First argument: Client identifier
+# First argument: Client identifier
 
-KEY_DIR=\~/openvpn-ca/keys
+KEY_DIR=~/openvpn-ca/keys
+OUTPUT_DIR=~/client-configs/files
+BASE_CONFIG=~/client-configs/base.conf
 
-OUTPUT_DIR=\~/client-configs/files
+cat ${BASE_CONFIG} \
+    <(echo -e '<ca>') \
+    ${KEY_DIR}/ca.crt \
+    <(echo -e '</ca>\n<cert>') \
+    ${KEY_DIR}/${1}.crt \
+    <(echo -e '</cert>\n<key>') \
+    ${KEY_DIR}/${1}.key \
+    <(echo -e '</key>\n<tls-auth>') \
+    ${KEY_DIR}/ta.key \
+    <(echo -e '</tls-auth>') \
+    > ${OUTPUT_DIR}/${1}.ovpn
 
-BASE_CONFIG=\~/client-configs/base.conf
-
-cat \${BASE_CONFIG} \\
-
-\<(echo -e \'\<ca\>\') \\
-
-\${KEY_DIR}/ca.crt \\
-
-\<(echo -e \'\</ca\>\\n\<cert\>\') \\
-
-\${KEY_DIR}/\${1}.crt \\
-
-\<(echo -e \'\</cert\>\\n\<key\>\') \\
-
-\${KEY_DIR}/\${1}.key \\
-
-\<(echo -e \'\</key\>\\n\<tls-auth\>\') \\
-
-\${KEY_DIR}/ta.key \\
-
-\<(echo -e \'\</tls-auth\>\') \\
-
-\> \${OUTPUT_DIR}/\${1}.ovpn
 ```
 
 Change permissions of the file and run it:
 
 ```
-chmod 700 \~/client-configs/make_config.sh
+chmod 700 ~/client-configs/make_config.sh
 
-cd \~/client-configs
+cd ~/client-configs
 
 ./make_config.sh client1
 ```
@@ -502,7 +489,7 @@ OpenVPN client. Start by copying the certificates you just created on
 your VPN server to your local machine.
 
 ```
-mkdir vpn-02c
+mkdir vpn-02cn
 
 cd vpn-02cn
 ```
@@ -512,8 +499,7 @@ local machine. Make sure to update the following command to use the
 public IP of your VPC VPN instance.
 
 ```
-scp -i \~/.ssh/kevincollins\@us.ibm.com
-root\@169.48.152.73:/root/client-configs/files/client1.ovpn .
+scp -i ~/.ssh/kevincollins@us.ibm.com root@169.48.152.73:/root/client-configs/files/client1.ovpn .
 ```
 
 Next -- Install the OpenVPN client on your mac following these

@@ -32,13 +32,10 @@ As a note, this is part of the zero to cloud native tutorial series ( <https://w
 <b>[Create Private VPN Connectivity to your location](https://github.com/kmcolli/satellite/blob/master/docs/vpn/vpn.md)</b>.  
 --  
 
+<b>[Install Cloud Pak for Data on IBM Cloud Satellite](https://github.com/kmcolli/satellite/blob/master/docs/cp4d/satellite-cp4d.md)</b>.  
+This sections also covers how to setup up Portworx and Cloud Object Storage as the image registry for Satellite.
+--  
 
-**Coming Soon**
---
-* Optimize you satellite environment. 
-* Use satellite config to deploy an application.  
-* Log and monitor your satellite location, cluster and application. 
-* Securely connect you satellite location to IBM Cloud. 
 
 
 

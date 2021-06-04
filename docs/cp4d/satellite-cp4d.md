@@ -195,14 +195,10 @@ bucket: sat-cluster-image-registry-kmc
 region: us-east-standard
 
 regionEndpoint:
-'https://s3.direct.us-east.cloud-object-storage.appdomain.cloud'
+'https://s3.us-east.cloud-object-storage.appdomain.cloud'
 
 virtualHostedStyle: false
 
-Note: it is best practice to use the direct endpoint. Like Private
-endpoints, Direct endpoints provide better performance over Public
-endpoints and do not incur charges for any outgoing or incoming
-bandwidth.
 
 After entering these settings, click Save and then Reload. You should
 see the YAML has been updated with the settings you entered.

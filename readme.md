@@ -35,6 +35,8 @@ As a note, this is part of the zero to cloud native tutorial series ( <https://w
 <b>[Install Cloud Pak for Data on IBM Cloud Satellite](https://github.com/kmcolli/satellite/blob/master/docs/cp4d/satellite-cp4d.md)</b>.  
 --  
 
+<b>[Expose and application running on IBM Cloud Satellite with a Load Balancer](https://github.com/kmcolli/satellite/blob/master/docs/lb/satellite-lb.md)</b>.  
+--  
 This section also covers how to setup up Portworx and Cloud Object Storage as the image registry for Satellite.
 
 

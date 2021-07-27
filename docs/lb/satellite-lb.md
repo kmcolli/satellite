@@ -11,7 +11,7 @@ have deployed certain applications on this OpenShift Cluster which are
 required to be exposed to the public Internet. According to the current
 design the only way it is possible to expose the application to the
 public Internet is either you expose your whole satellite location to
-the Internet or use networking infrastructure such (load balancer,
+the Internet or use networking infrastructure such as (load balancer,
 http/https/TLS proxy etc.).
 
 Exposing the whole satellite location brings up a huge security concern

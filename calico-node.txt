@@ -1,0 +1,174 @@
+Name:                 calico-node-68p49
+Namespace:            calico-system
+Priority:             1000000000
+Priority Class Name:  calico-priority
+Node:                 10.242.64.5/10.242.64.5
+Start Time:           Tue, 17 Aug 2021 14:50:04 -0400
+Labels:               controller-revision-hash=656f9f494d
+                      k8s-app=calico-node
+                      pod-template-generation=1
+Annotations:          hash.operator.tigera.io/cni-config: bc0bc5fcf9a73e36c35d83d1d54feb3b8ffbf2f6
+                      hash.operator.tigera.io/node-cert: 9cf77f861f01554cf36f5de5a6434939907b41ad
+                      hash.operator.tigera.io/typha-ca: 52030b19ba520a16ab7a588ecc32e3830c30a19e
+Status:               Running
+IP:                   10.242.64.5
+IPs:
+  IP:           10.242.64.5
+Controlled By:  DaemonSet/calico-node
+Init Containers:
+  install-cni:
+    Container ID:  cri-o://742e56c953b78af0dc6c0f2408da543ea1ae58719d60b00d8f6c4c85e07bceef
+    Image:         registry.eu-gb.bluemix.net/armada-master/calico/cni:v3.17.2
+    Image ID:      registry.eu-gb.bluemix.net/armada-master/calico/cni@sha256:6565778121a72ffef5ed293d5532a2b42c7534fe82383a685419e877be304de5
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /opt/cni/bin/install
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Tue, 17 Aug 2021 15:00:49 -0400
+      Finished:     Tue, 17 Aug 2021 15:01:30 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      CNI_CONF_NAME:            10-calico.conflist
+      SLEEP:                    false
+      CNI_NET_DIR:              /var/run/multus/cni/net.d
+      CNI_NETWORK_CONFIG:       <set to the key 'config' of config map 'cni-config'>  Optional: false
+      KUBERNETES_SERVICE_HOST:  172.21.0.1
+      KUBERNETES_SERVICE_PORT:  443
+    Mounts:
+      /host/etc/cni/net.d from cni-net-dir (rw)
+      /host/opt/cni/bin from cni-bin-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from calico-node-token-fc7p2 (ro)
+Containers:
+  calico-node:
+    Container ID:   cri-o://b79cc3a251a1ed85a43d15d5e2c3025ff2bfba3da85a1dffe11d276e82cca3b3
+    Image:          registry.eu-gb.bluemix.net/armada-master/calico/node:v3.17.2
+    Image ID:       registry.eu-gb.bluemix.net/armada-master/calico/node@sha256:97608cb576fe2f7f9b20df9ddf7660ca8295bd39ede5d4853d06d0bfda67c7d2
+    Port:           <none>
+    Host Port:      <none>
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    137
+      Started:      Fri, 20 Aug 2021 13:18:27 -0400
+      Finished:     Fri, 20 Aug 2021 13:18:58 -0400
+    Ready:          False
+    Restart Count:  1031
+    Requests:
+      cpu:      250m
+      memory:   80Mi
+    Liveness:   http-get http://localhost:9199/liveness delay=0s timeout=1s period=10s #success=1 #failure=3
+    Readiness:  exec [/bin/calico-node -bird-ready -felix-ready] delay=0s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      DATASTORE_TYPE:                     kubernetes
+      WAIT_FOR_DATASTORE:                 true
+      CLUSTER_TYPE:                       k8s,operator,openshift,bgp
+      CALICO_DISABLE_FILE_LOGGING:        true
+      FELIX_DEFAULTENDPOINTTOHOSTACTION:  ACCEPT
+      FELIX_HEALTHENABLED:                true
+      NODENAME:                            (v1:spec.nodeName)
+      NAMESPACE:                          calico-system (v1:metadata.namespace)
+      FELIX_TYPHAK8SNAMESPACE:            calico-system
+      FELIX_TYPHAK8SSERVICENAME:          calico-typha
+      FELIX_TYPHACAFILE:                  /typha-ca/caBundle
+      FELIX_TYPHACERTFILE:                /felix-certs/cert.crt
+      FELIX_TYPHAKEYFILE:                 /felix-certs/key.key
+      FELIX_TYPHACN:                      <set to the key 'common-name' in secret 'typha-certs'>  Optional: true
+      FELIX_TYPHAURISAN:                  <set to the key 'uri-san' in secret 'typha-certs'>      Optional: true
+      CALICO_IPV4POOL_CIDR:               172.30.0.0/16
+      CALICO_IPV4POOL_VXLAN:              Always
+      CALICO_IPV4POOL_BLOCK_SIZE:         26
+      CALICO_IPV4POOL_NODE_SELECTOR:      all()
+      FELIX_VXLANMTU:                     1450
+      FELIX_WIREGUARDMTU:                 1450
+      CALICO_NETWORKING_BACKEND:          bird
+      FELIX_IPINIPMTU:                    1450
+      IP:                                 autodetect
+      IP_AUTODETECTION_METHOD:            can-reach=www.ibm.com
+      IP6:                                none
+      FELIX_IPV6SUPPORT:                  false
+      FELIX_HEALTHPORT:                   9199
+      FELIX_IPTABLESBACKEND:              auto
+      KUBERNETES_SERVICE_HOST:            172.21.0.1
+      KUBERNETES_SERVICE_PORT:            443
+    Mounts:
+      /felix-certs from felix-certs (ro)
+      /lib/modules from lib-modules (ro)
+      /run/xtables.lock from xtables-lock (rw)
+      /typha-ca from typha-ca (ro)
+      /var/lib/calico from var-lib-calico (rw)
+      /var/log/calico/cni from cni-log-dir (ro)
+      /var/run/calico from var-run-calico (rw)
+      /var/run/nodeagent from policysync (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from calico-node-token-fc7p2 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  lib-modules:
+    Type:          HostPath (bare host directory volume)
+    Path:          /lib/modules
+    HostPathType:  
+  var-run-calico:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/calico
+    HostPathType:  
+  var-lib-calico:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/calico
+    HostPathType:  
+  xtables-lock:
+    Type:          HostPath (bare host directory volume)
+    Path:          /run/xtables.lock
+    HostPathType:  FileOrCreate
+  policysync:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/nodeagent
+    HostPathType:  DirectoryOrCreate
+  typha-ca:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      typha-ca
+    Optional:  false
+  felix-certs:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  node-certs
+    Optional:    false
+  cni-bin-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/cni/bin
+    HostPathType:  
+  cni-net-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/multus/cni/net.d
+    HostPathType:  
+  cni-log-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/log/calico/cni
+    HostPathType:  
+  calico-node-token-fc7p2:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  calico-node-token-fc7p2
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  kubernetes.io/os=linux
+Tolerations:     :NoSchedule
+                 :NoExecute
+                 CriticalAddonsOnly
+Events:
+  Type     Reason     Age                        From                  Message
+  ----     ------     ----                       ----                  -------
+  Warning  Unhealthy  141m (x492 over 2d17h)     kubelet, 10.242.64.5  Readiness probe failed:
+  Warning  Unhealthy  96m (x2730 over 2d17h)     kubelet, 10.242.64.5  Liveness probe failed: Get "http://localhost:9199/liveness": dial tcp 127.0.0.1:9199: connect: connection refused
+  Warning  Unhealthy  66m (x4 over 66m)          kubelet, 10.242.64.5  Readiness probe errored: rpc error: code = NotFound desc = container is not created or running: checking if PID of 3a0d062a9332253651e76a6c3ec34cdd76c1010c6bd4c1571b0e98342120f2e8 is running failed: container process not found
+  Normal   Pulled     36m (x1022 over 2d17h)     kubelet, 10.242.64.5  Container image "registry.eu-gb.bluemix.net/armada-master/calico/node:v3.17.2" already present on machine
+  Warning  Unhealthy  26m (x4 over 26m)          kubelet, 10.242.64.5  Readiness probe errored: rpc error: code = NotFound desc = container is not created or running: checking if PID of 32080de6d55a2cf1118055bf44a13bcf25200b9a4c70cc6f39a58cfc3a4f43cd is running failed: container process not found
+  Normal   Created    11m (x1029 over 2d22h)     kubelet, 10.242.64.5  Created container calico-node
+  Warning  BackOff    6m27s (x12287 over 2d17h)  kubelet, 10.242.64.5  Back-off restarting failed container
+  Warning  Unhealthy  85s (x2191 over 2d17h)     kubelet, 10.242.64.5  (combined from similar events): Readiness probe failed: time="2021-08-20T17:18:58Z" level=error msg="exec failed: container_linux.go:366: starting container process caused: read init-p: connection reset by peer"

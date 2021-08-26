@@ -1,7 +1,4 @@
-Zero to Cloud-Native with IBM Cloud
-===================================
-
-Part 16: Install Cloud Pak for Data on IBM Cloud Satellite
+Install Cloud Pak for Data on IBM Cloud Satellite
 ==========================================================
 
 **Kevin Collins ( kevincollins@us.ibm.com )**  

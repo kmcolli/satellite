@@ -1,7 +1,4 @@
-Zero to Cloud-Native with IBM Cloud
-===================================
-
-Part 14: Deploy Satellite Infrastructure on IBM Cloud VPC
+Deploy Satellite Infrastructure on IBM Cloud VPC
 =========================================================
 
 

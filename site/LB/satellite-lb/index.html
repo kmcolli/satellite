@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Load Balancer - IBM Cloud Satellite Tutorials</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">IBM Cloud Satellite Tutorials</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../Satellite/satellite/" class="nav-link">Deploy Satellite</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../CP4D/satellite-cp4d/" class="nav-link">CP4D</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Load Balancer</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../VPC/vpc/" class="nav-link">VPC</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../VPN/vpn/" class="nav-link">VPN</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../CP4D/satellite-cp4d/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../VPC/vpc/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#exposing-an-openshift-application-to-the-internet-from-a-private-satellite-cluster-using-a-load-balancer" class="nav-link">Exposing an OpenShift application to the Internet from a ‘private’ Satellite Cluster using a Load Balancer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#create-a-load-balancer-service-with-your-cloud-provider" class="nav-link">Create a load balancer service with your cloud provider.</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#configure-the-load-balancer" class="nav-link">Configure the Load Balancer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#create-a-backend-pool" class="nav-link">Create a backend pool</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#create-a-backend-pool_1" class="nav-link">Create a backend pool</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#create-front-end-listener" class="nav-link">Create Front-end Listener</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#create-the-load-balancer" class="nav-link">Create the load balancer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#get-the-load-balancer-host-name" class="nav-link">Get the load balancer host name</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#test-the-load-balancer" class="nav-link">Test the load balancer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="exposing-an-openshift-application-to-the-internet-from-a-private-satellite-cluster-using-a-load-balancer">Exposing an OpenShift application to the Internet from a ‘private’ Satellite Cluster using a Load Balancer</h1>
+<p><strong>Kevin Collins ( kevincollins@us.ibm.com )</strong><br />
+<strong>Kunal Malhotra ( kunal.malhotra3@ibm.com )</strong></p>
+<p>Let's say you have deployed a RedHat OpenShift Cluster via IBM Cloud
+Satellite in a private isolated network in your datacenter and now you
+have deployed certain applications on this OpenShift Cluster which are
+required to be exposed to the public Internet. According to the current
+design the only way it is possible to expose the application to the
+public Internet is either you expose your whole satellite location to
+the Internet or use networking infrastructure such as (load balancer,
+http/https/TLS proxy etc.).</p>
+<p>Exposing the whole satellite location brings up a huge security concern
+i.e. anybody from the outside world can access you satellite control
+plane in the datacenter or the OpenShift worker nodes themselves and
+this is not ideal for any enterprise. Hence using networking
+infrastructure make much more sense for both security and operational
+points to expose applications to the Internet. This involves having a
+networking device outside of the cluster and configuring the load
+balancer to access a NodePort service on your OpenShift Cluster. Not
+only will you find this method more secure, it also scales better. In
+tutorial we will show you how to NAT the traffic coming from the
+Internet to your internal private network via a load balancer so that
+your application is accessible via the internet.</p>
+<p>Note: This step-by-step tutorial have been performed on IBM Cloud, but
+steps should be similar on other public cloud providers and on-prem.</p>
+<h1 id="create-a-load-balancer-service-with-your-cloud-provider">Create a load balancer service with your cloud provider.</h1>
+<p><strong>IBM Cloud Example:</strong></p>
+<p>From the IBM Cloud menu, navigate to <strong>VPC Infrastructure</strong> and under
+<strong>Network</strong>, select <strong>Load Balancers</strong>, and click <strong>Create</strong>.</p>
+<p><img alt="Graphical user interface, application Description automatically
+generated" src="../media/image1.png" /></p>
+<h2 id="configure-the-load-balancer">Configure the Load Balancer</h2>
+<p>Give the load balancer a <strong>name</strong>, select <strong>Application Load Balancer</strong>,
+select the <strong>Region</strong> where your satellite hosts are, select your
+<strong>virtual private cloud</strong> your hosts are in, and finally select <strong>all
+subnets</strong> for your VPC.</p>
+<p><img alt="Graphical user interface, application, Teams Description automatically
+generated" src="../media/image2.png" /></p>
+<h2 id="create-a-backend-pool">Create a backend pool</h2>
+<p>In OpenShift, get the nodeport of the service you want to expose to the
+Internet.</p>
+<p><strong>Example to Test:</strong></p>
+<p>Create a new openshift application</p>
+<pre><code>oc new-app openshift/hello-openshift
+</code></pre>
+<p>This creates a pod and a cluster ip service.</p>
+<p>Edit the service, search for ClusterIP and change it to NodePort. Save
+the service.</p>
+<pre><code>oc edit svc hello-openshift
+</code></pre>
+<p>Note the port of the service.</p>
+<p><img alt="" src="../media/image3.png" /></p>
+<p>In this case, we want to create a load balancer for the service running
+on port 8080 which maps to port 30268 in the cluster.</p>
+<h2 id="create-a-backend-pool_1">Create a backend pool</h2>
+<p>Back on the create load balancer page, click on <strong>New Pool</strong> in the
+backend pool section.</p>
+<p><img alt="Graphical user interface Description automatically generated with low
+confidence" src="../media/image4.png" /></p>
+<p>Following the above example, we will use the name hello-openshift and
+for Health Port, but the port number we got in the previous step ... in
+this case 30268.</p>
+<p><img alt="Graphical user interface, application, Teams Description automatically
+generated" src="../media/image5.png" /></p>
+<p><strong>Attach Virtual Hosts to the Backend Pool.</strong></p>
+<p>Under the backend pool section, click on <strong>attach</strong>.</p>
+<p><img alt="A picture containing graphical user interface Description
+automatically generated" src="../media/image6.png" /></p>
+<p>On the next screen select the first subnet, and then select the first
+worker node instance, and use the same port number ( 30268 in our case
+). Click add and <strong>repeat the same steps for every subnet and every
+worker node</strong> in the cluster.</p>
+<p><img alt="Graphical user interface, text, application Description automatically
+generated" src="../media/image7.png" /></p>
+<p>*Important note -- when you add or remove worker nodes in your cluster,
+will need to go back to this backend pool and either add the new worker
+node or remove it from this backend pool.</p>
+<p>After entering all the worker nodes, they should all appear in attached
+instances.</p>
+<p><img alt="Graphical user interface, application Description automatically
+generated" src="../media/image8.png" /></p>
+<h2 id="create-front-end-listener">Create Front-end Listener</h2>
+<p>Under front-end listeners, click on <strong>New listener</strong>.</p>
+<p><img alt="Background pattern Description automatically generated with medium
+confidence" src="../media/image9.png" /></p>
+<p>On the next screen, enter the node port from your service ( in the
+example above 30280 ), select your backend pool, and then enter 15000 as
+the maximum connections, and then click save.</p>
+<p><img alt="Graphical user interface, application Description automatically
+generated" src="../media/image10.png" /></p>
+<h2 id="create-the-load-balancer">Create the load balancer</h2>
+<p>On the panel on the right hand side of the screen, click on Create Load
+Balancer.</p>
+<p><img alt="Graphical user interface, application, Teams Description automatically
+generated" src="../media/image11.png" /></p>
+<h2 id="get-the-load-balancer-host-name">Get the load balancer host name</h2>
+<p>The load balancer will take a few minutes to create. After it is
+created, you can view the hostname from the overview page.</p>
+<p><img alt="Graphical user interface, application Description automatically
+generated" src="../media/image12.png" /></p>
+<h2 id="test-the-load-balancer">Test the load balancer</h2>
+<p>If you are following the example in this document, you can curl the
+hostname and it should tell you "Hello Openshift"</p>
+<p><img alt="" src="../media/image13.png" /></p>
+<p>Note, it can take a couple of minutes for DNS to be updated. If you want
+to test right away run</p>
+<pre><code>host \&lt;hostname\&gt;
+</code></pre>
+<p>This will return 2 IPs, like below that you can then curl instead of the
+hostname if you want to test right away.</p>
+<p><img alt="" src="../media/image14.png" /></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

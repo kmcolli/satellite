@@ -1,7 +1,4 @@
-Zero to Cloud-Native with IBM Cloud
-===================================
-
-Part 14: Deploy to a Remote Location with IBM Cloud Satellite 
+Deploy to a Remote Location with IBM Cloud Satellite 
 =============================================================
 
 **Kevin Collins ( kevincollins@us.ibm.com )**  

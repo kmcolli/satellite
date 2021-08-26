@@ -1,7 +1,4 @@
-Zero to Cloud-Native with IBM Cloud
-===================================
-
-Part 15: Create a OpenVPN Server and Client To Connect to a Private Network
+Create a OpenVPN Server and Client To Connect to a Private Network
 ===========================================================================
 
 
